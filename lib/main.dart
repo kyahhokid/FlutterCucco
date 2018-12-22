@@ -25,6 +25,9 @@ class CuccoState extends State<Cucco> {
   // アクティブ状態のククボタンのレイアウトファイルの名前
   static const String CUCCO_BUTTON_FILE_NAME = 'res/images/button_cucco.png';
 
+  // 周りの余白
+  static const double AROUND_MARGIN = 30.0;
+
   // 「交換する」ボタンのレイアウトファイルの名前
   String changeButtonLayoutName = 'res/images/button_default.png';
 
@@ -33,6 +36,9 @@ class CuccoState extends State<Cucco> {
 
   // ククボタンのレイアウトファイルの名前
   String cuccoButtonLayoutName = 'res/images/button_cucco.png';
+
+  // npcの人数
+  int endNpcId = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -72,36 +78,49 @@ class CuccoState extends State<Cucco> {
 
   // npc一人分のレイアウト
   Widget _oneNpcLayout() {
-    return new LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          final double logicalPixelCoefficient = MediaQuery
-              .of(context)
-              .size
-              .height / constraints.maxHeight / ui.window.devicePixelRatio;
-          return Container(
-              child: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  // 背景
-                  Container(
-                    child: Image.asset(
-                        'res/images/background.png', fit: BoxFit.fill),
+    final int maxRow = (endNpcId / 2.0).round();
+    return Container(
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                // 背景
+                Container(
+                  child: Image.asset(
+                      'res/images/background.png', fit: BoxFit.fill),
+                ),
+                Container(
+                  padding: EdgeInsets.all(AROUND_MARGIN / maxRow),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                              'res/images/one.png', fit: BoxFit.contain)
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset(
+                              'res/images/flandre_normal_face.png',
+                              fit: BoxFit.fill,
+                            ),
+                            Text(
+                                '100Coins', textAlign: TextAlign.right, style: TextStyle(fontSize: 30)),
+
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  Container(
-                    padding: EdgeInsets.all(logicalPixelCoefficient * 40.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Image.asset('res/images/one.png', fit: BoxFit.contain),
-                      ],
-                    ),
-                  )
-                ],
-              )
-          );
-        }
+                )
+              ],
+            ),
     );
   }
+
 
   // ユーザーのレイアウト
   Widget _userLayout() {
@@ -154,12 +173,14 @@ class CuccoState extends State<Cucco> {
           Expanded(
               flex: 33,
               child: Text(
-                  '山札残り40枚', textAlign: TextAlign.left)
+                  '山札残り40枚', textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 7.5 * ui.window.devicePixelRatio))
           ),
           Expanded(
             flex: 33,
             child: Text(
-                '100Coins', textAlign: TextAlign.right),
+                '100Coins', textAlign: TextAlign.right,
+                style: TextStyle(fontSize: 7.5 * ui.window.devicePixelRatio)),
           ),
           Expanded(
               flex: 17,
@@ -180,7 +201,7 @@ class CuccoState extends State<Cucco> {
           flex: 8,
           child: Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.only(left: 40.0),
+            padding: EdgeInsets.only(left: AROUND_MARGIN),
             child: Image.asset('res/images/one.png',
               fit: BoxFit.contain,
             ),
@@ -203,77 +224,100 @@ class CuccoState extends State<Cucco> {
             flex: 3,
             child: Container(
               padding: EdgeInsets.only(
-                  left: 15.0, right: 40.0),
-              child: new LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        // 「交換する」ボタン
-                        RawMaterialButton(
-                            onPressed: () {},
-                            onHighlightChanged: (isPressed) {
-                              setState(() {
-                                if (isPressed) {
-                                  changeButtonLayoutName =
-                                      INVALID_BUTTON_FILE_NAME;
-                                } else {
-                                  changeButtonLayoutName =
-                                      VALID_BUTTON_FILE_NAME;
-                                }
-                              });
-                            },
-                            child: _sizedBoxForButton(
-                                constraints.maxHeight / 5.0,
-                                changeButtonLayoutName, "交換する", null)
-                        ),
-                        // 「交換しない」ボタン
-                        RawMaterialButton(
-                            onPressed: () {},
-                            onHighlightChanged: (isPressed) {
-                              setState(() {
-                                if (isPressed) {
-                                  noChangeButtonLayoutName =
-                                      INVALID_BUTTON_FILE_NAME;
-                                } else {
-                                  noChangeButtonLayoutName =
-                                      VALID_BUTTON_FILE_NAME;
-                                }
-                              });
-                            },
-                            child: _sizedBoxForButton(
-                                constraints.maxHeight / 5.0,
-                                noChangeButtonLayoutName, "交換しない", null)
-                        ),
-                        // ククボタン
-                        RawMaterialButton(
-                            onPressed: () {},
-                            onHighlightChanged: (isPressed) {
-                              setState(() {
-                                if (isPressed) {
-                                  cuccoButtonLayoutName =
-                                      INVALID_BUTTON_FILE_NAME;
-                                } else {
-                                  cuccoButtonLayoutName =
-                                      CUCCO_BUTTON_FILE_NAME;
-                                }
-                              });
-                            },
-                            child: _sizedBoxForButton(
-                                constraints.maxHeight / 5.0,
-                                cuccoButtonLayoutName, "クク", TextStyle(
-                                color: Color
-                                    .fromARGB(
-                                    255, 255,
-                                    255, 128),
-                                fontWeight: FontWeight
-                                    .bold)
-                            )
+                  left: 15.0, right: AROUND_MARGIN),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Expanded(
+                      flex: 1,
+                      child: Container()
+                  ),
+
+                  // 「交換する」ボタン
+                  Expanded(
+                    flex: 3,
+                    child: RawMaterialButton(
+                        onPressed: () {},
+                        onHighlightChanged: (isPressed) {
+                          setState(() {
+                            if (isPressed) {
+                              changeButtonLayoutName =
+                                  INVALID_BUTTON_FILE_NAME;
+                            } else {
+                              changeButtonLayoutName =
+                                  VALID_BUTTON_FILE_NAME;
+                            }
+                          });
+                        },
+                        child: _sizedBoxForButton(
+                            changeButtonLayoutName, "交換する", null)
+                    ),
+                  ),
+
+                  Expanded(
+                      flex: 2,
+                      child: Container()
+                  ),
+
+                  // 「交換しない」ボタン
+                  Expanded(
+                    flex: 3,
+                    child: RawMaterialButton(
+                        onPressed: () {},
+                        onHighlightChanged: (isPressed) {
+                          setState(() {
+                            if (isPressed) {
+                              noChangeButtonLayoutName =
+                                  INVALID_BUTTON_FILE_NAME;
+                            } else {
+                              noChangeButtonLayoutName =
+                                  VALID_BUTTON_FILE_NAME;
+                            }
+                          });
+                        },
+                        child: _sizedBoxForButton(
+                            noChangeButtonLayoutName, "交換しない", null)
+                    ),
+                  ),
+
+                  Expanded(
+                      flex: 2,
+                      child: Container()
+                  ),
+
+                  // ククボタン
+                  Expanded(
+                    flex: 3,
+                    child: RawMaterialButton(
+                        onPressed: () {},
+                        onHighlightChanged: (isPressed) {
+                          setState(() {
+                            if (isPressed) {
+                              cuccoButtonLayoutName =
+                                  INVALID_BUTTON_FILE_NAME;
+                            } else {
+                              cuccoButtonLayoutName =
+                                  CUCCO_BUTTON_FILE_NAME;
+                            }
+                          });
+                        },
+                        child: _sizedBoxForButton(
+                            cuccoButtonLayoutName, "クク", TextStyle(
+                            color: Color
+                                .fromARGB(
+                                255, 255,
+                                255, 128),
+                            fontWeight: FontWeight
+                                .bold)
                         )
-                      ],
-                    );
-                  }
+                    ),
+                  ),
+
+                  Expanded(
+                      flex: 1,
+                      child: Container()
+                  ),
+                ],
               ),
             )
         ),
@@ -283,7 +327,7 @@ class CuccoState extends State<Cucco> {
           child: Container(
             alignment: Alignment.bottomLeft,
             padding: EdgeInsets.only(
-                left: 10.0, right: 60.0, bottom: 10.0),
+                left: 10.0, right: AROUND_MARGIN + 20.0, bottom: 10.0),
             child: Image.asset(
               'res/images/flandre_normal_face.png',
               fit: BoxFit.fill,
@@ -295,10 +339,10 @@ class CuccoState extends State<Cucco> {
   }
 
   // ボタンレイアウト用のSizedBox
-  SizedBox _sizedBoxForButton(double height, String layout, String text,
+  SizedBox _sizedBoxForButton(String layout, String text,
       TextStyle style) {
     return SizedBox(
-      height: height,
+      height: double.infinity,
       width: double.infinity,
       child: Stack(
         fit: StackFit.expand,
