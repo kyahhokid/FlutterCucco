@@ -108,8 +108,7 @@ class CuccoState extends State<Cucco> {
                               fit: BoxFit.fill,
                             ),
                             Text(
-                                '100Coins', textAlign: TextAlign.right,
-                                style: TextStyle(fontSize: 10 * ui.window.devicePixelRatio)),
+                                '100Coins', textAlign: TextAlign.right, style: TextStyle(fontSize: 30)),
 
                           ],
                         ),
