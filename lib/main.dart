@@ -58,13 +58,11 @@ class CuccoState extends State<Cucco> {
       children: <Widget>[
         // npcのレイアウト
         Expanded(
-            flex: 1,
             child: _npcLayout()
         ),
 
         // ユーザーのレイアウト
         Expanded(
-            flex: 1,
             child: _userLayout()
         ),
       ],
@@ -94,12 +92,10 @@ class CuccoState extends State<Cucco> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Expanded(
-                          flex: 1,
                           child: Image.asset(
                               'res/images/one.png', fit: BoxFit.contain)
                       ),
                       Expanded(
-                        flex: 1,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -145,11 +141,9 @@ class CuccoState extends State<Cucco> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Expanded(
-                      flex: 1,
                       child: _userLayoutLeft()
                   ),
                   Expanded(
-                      flex: 1,
                       child: _userLayoutRight()
                   ),
                 ],
