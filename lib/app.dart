@@ -26,16 +26,16 @@ class CuccoState extends State<Cucco> {
   static const double AROUND_MARGIN = 30.0;
 
   // 「交換する」ボタンのレイアウトファイルの名前
-  String changeButtonLayoutName = 'res/images/button_default.png';
+  String _changeButtonLayoutName = 'res/images/button_default.png';
 
   // 「交換しない」ボタンのレイアウトファイルの名前
-  String noChangeButtonLayoutName = 'res/images/button_default.png';
+  String _noChangeButtonLayoutName = 'res/images/button_default.png';
 
   // ククボタンのレイアウトファイルの名前
-  String cuccoButtonLayoutName = 'res/images/button_cucco.png';
+  String _cuccoButtonLayoutName = 'res/images/button_cucco.png';
 
   // npcの人数
-  int endNpcId = 3;
+  int _endNpcId = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -68,16 +68,16 @@ class CuccoState extends State<Cucco> {
 
   // npcのレイアウト
   Widget _npcLayout() {
-    double baseId = endNpcId / 2.0 + 0.5;
+    double baseId = _endNpcId / 2.0 + 0.5;
     double deltaId = 0.5;
     List<Widget> rowWidgetList = new List();
 
-    if(endNpcId % 2 == 1) {
+    if(_endNpcId % 2 == 1) {
       rowWidgetList.add(new Expanded(child: _oneNpcLayout()));
       deltaId = 1.0;
     }
 
-    while(baseId + deltaId <= endNpcId) {
+    while(baseId + deltaId <= _endNpcId) {
       Row row = new Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -98,13 +98,13 @@ class CuccoState extends State<Cucco> {
 
   // npc一人分のレイアウト
   Widget _oneNpcLayout() {
-    final int maxRow = (endNpcId / 2.0).round();
+    final int maxRow = (_endNpcId / 2.0).round();
     TextStyle textStyle = Theme.of(context).textTheme.headline;
-    double horizontalPadding = endNpcId == 1 ? AROUND_MARGIN : AROUND_MARGIN / 2;
+    double horizontalPadding = _endNpcId == 1 ? AROUND_MARGIN : AROUND_MARGIN / 2;
 
-    if(endNpcId >= 7) {
+    if(_endNpcId >= 7) {
       textStyle = Theme.of(context).textTheme.body1.apply(fontSizeFactor: 0.6);
-    } else if(endNpcId >= 2){
+    } else if(_endNpcId >= 2){
       textStyle = Theme.of(context).textTheme.body1;
     }
 
@@ -156,7 +156,7 @@ class CuccoState extends State<Cucco> {
   // npcの表情のレイアウト。
   // npcの人数に応じて、レイアウトの表示方法を変える。
   Widget _npcFaceImage() {
-    if(endNpcId <= 2) {
+    if(_endNpcId <= 2) {
       return Image.asset(
         'res/images/flandre_normal_face.png',
         fit: BoxFit.contain,
@@ -289,16 +289,16 @@ class CuccoState extends State<Cucco> {
                         onHighlightChanged: (isPressed) {
                           setState(() {
                             if (isPressed) {
-                              changeButtonLayoutName =
+                              _changeButtonLayoutName =
                                   INVALID_BUTTON_FILE_NAME;
                             } else {
-                              changeButtonLayoutName =
+                              _changeButtonLayoutName =
                                   VALID_BUTTON_FILE_NAME;
                             }
                           });
                         },
                         child: _sizedBoxForButton(
-                            changeButtonLayoutName, "交換する", null)
+                            _changeButtonLayoutName, "交換する", null)
                     ),
                   ),
 
@@ -315,16 +315,16 @@ class CuccoState extends State<Cucco> {
                         onHighlightChanged: (isPressed) {
                           setState(() {
                             if (isPressed) {
-                              noChangeButtonLayoutName =
+                              _noChangeButtonLayoutName =
                                   INVALID_BUTTON_FILE_NAME;
                             } else {
-                              noChangeButtonLayoutName =
+                              _noChangeButtonLayoutName =
                                   VALID_BUTTON_FILE_NAME;
                             }
                           });
                         },
                         child: _sizedBoxForButton(
-                            noChangeButtonLayoutName, "交換しない", null)
+                            _noChangeButtonLayoutName, "交換しない", null)
                     ),
                   ),
 
@@ -341,16 +341,16 @@ class CuccoState extends State<Cucco> {
                         onHighlightChanged: (isPressed) {
                           setState(() {
                             if (isPressed) {
-                              cuccoButtonLayoutName =
+                              _cuccoButtonLayoutName =
                                   INVALID_BUTTON_FILE_NAME;
                             } else {
-                              cuccoButtonLayoutName =
+                              _cuccoButtonLayoutName =
                                   CUCCO_BUTTON_FILE_NAME;
                             }
                           });
                         },
                         child: _sizedBoxForButton(
-                            cuccoButtonLayoutName, "クク", TextStyle(
+                            _cuccoButtonLayoutName, "クク", TextStyle(
                             color: Color
                                 .fromARGB(
                                 255, 255,
