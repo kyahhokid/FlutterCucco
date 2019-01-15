@@ -35,7 +35,7 @@ class CuccoState extends State<Cucco> {
   String cuccoButtonLayoutName = 'res/images/button_cucco.png';
 
   // npcの人数
-  int endNpcId = 1;
+  int endNpcId = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +68,47 @@ class CuccoState extends State<Cucco> {
 
   // npcのレイアウト
   Widget _npcLayout() {
-    return _oneNpcLayout();
+    double baseId = endNpcId / 2.0 + 0.5;
+    double deltaId = 0.5;
+    List<Widget> rowWidgetList = new List();
+
+    if(endNpcId % 2 == 1) {
+      rowWidgetList.add(new Expanded(child: _oneNpcLayout()));
+      deltaId = 1.0;
+    }
+
+    while(baseId + deltaId <= endNpcId) {
+      Row row = new Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          new Expanded(child: _oneNpcLayout()),
+          new Expanded(child: _oneNpcLayout())
+        ],
+      );
+
+      rowWidgetList.add(new Expanded(child: row));
+      deltaId += 1.0;
+    }
+
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: rowWidgetList
+    );
   }
 
   // npc一人分のレイアウト
   Widget _oneNpcLayout() {
     final int maxRow = (endNpcId / 2.0).round();
-    return Container(
+    TextStyle textStyle = Theme.of(context).textTheme.headline;
+    double horizontalPadding = endNpcId == 1 ? AROUND_MARGIN : AROUND_MARGIN / 2;
+
+    if(endNpcId >= 7) {
+      textStyle = Theme.of(context).textTheme.body1.apply(fontSizeFactor: 0.6);
+    } else if(endNpcId >= 2){
+      textStyle = Theme.of(context).textTheme.body1;
+    }
+
+    return new Container(
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -84,26 +118,31 @@ class CuccoState extends State<Cucco> {
                 'res/images/background.png', fit: BoxFit.fill),
           ),
           Container(
-            padding: EdgeInsets.all(AROUND_MARGIN / maxRow),
+            padding: EdgeInsets.symmetric(vertical: AROUND_MARGIN / maxRow, horizontal: horizontalPadding),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Expanded(
-                    child: Image.asset(
-                        'res/images/one.png', fit: BoxFit.contain)
+                    child: Container(
+                      padding: EdgeInsets.only(right: 1.0),
+                      alignment: Alignment.centerRight,
+                      child: Image.asset(
+                          'res/images/one.png', fit: BoxFit.contain,),
+                    )
                 ),
                 Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Image.asset(
-                        'res/images/flandre_normal_face.png',
-                        fit: BoxFit.fill,
-                      ),
-                      Text(
-                          '100Coins', textAlign: TextAlign.right, style: TextStyle(fontSize: 30)),
+                  child: Container(
+                    padding: EdgeInsets.only(left: 1.0),
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        _npcFaceImage(),
+                        Text(
+                                '100Coins', style: textStyle, maxLines: 1,),
 
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -114,6 +153,24 @@ class CuccoState extends State<Cucco> {
     );
   }
 
+  // npcの表情のレイアウト。
+  // npcの人数に応じて、レイアウトの表示方法を変える。
+  Widget _npcFaceImage() {
+    if(endNpcId <= 2) {
+      return Image.asset(
+        'res/images/flandre_normal_face.png',
+        fit: BoxFit.contain,
+      );
+    } else {
+      return Expanded(
+        child: Image.asset(
+          'res/images/flandre_normal_face.png',
+          fit: BoxFit.contain,
+        ),
+      );
+    }
+
+  }
 
   // ユーザーのレイアウト
   Widget _userLayout() {
