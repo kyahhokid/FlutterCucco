@@ -26,7 +26,10 @@ class MainApp extends StatelessWidget {
             body: MainBody()
         ),
         routes: <String, WidgetBuilder> {
-          '/cucco': (BuildContext context) => new Cucco(),
+          '/cucco': (BuildContext context) => ScopedModel<CuccoGameMaster>(
+              model: CuccoGameMaster(),
+              child: CuccoApp()
+          ),
         }
     );
   }
