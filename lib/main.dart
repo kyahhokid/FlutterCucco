@@ -25,12 +25,6 @@ class MainApp extends StatelessWidget {
             ),
             body: MainBody()
         ),
-        routes: <String, WidgetBuilder> {
-          '/cucco': (BuildContext context) => ScopedModel<CuccoGameMaster>(
-              model: CuccoGameMaster(),
-              child: CuccoApp()
-          ),
-        }
     );
   }
 }
@@ -80,7 +74,16 @@ class MainBodyState extends State<MainBody> {
     return items;
   }
 
+  ValueNotifier<int> _valueNotifier = ValueNotifier<int>(1);
+
   void _transitionCucco() {
-    Navigator.pushNamed(context,'/cucco');
+    
+    _valueNotifier = ValueNotifier<int>(int.parse(_value));
+    
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+        builder: (context) => CuccoApp(int.parse(_value))),
+    );
   }
 }

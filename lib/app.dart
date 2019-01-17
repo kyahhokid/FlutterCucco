@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
 class CuccoApp extends StatelessWidget {
+
+  final int _endNpcId;
+
+  CuccoApp(this._endNpcId);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
