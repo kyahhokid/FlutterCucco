@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
 
 class DbHelper {
   static Database _db;
@@ -15,9 +14,9 @@ class DbHelper {
   }
 
   static _initDb() async {
-    Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentDirectory.path, "group_album.db");
-    var db = await openDatabase(path, version: 1, onCreate: _onCreate);
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'demo.db');
+    var db = await openDatabase(path, version: 1);
     return db;
   }
 
