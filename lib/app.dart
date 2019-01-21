@@ -12,7 +12,7 @@ class CuccoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Flutter Demo',
-        home: Cucco()
+        home: Cucco(_endNpcId)
     );
   }
 }
@@ -41,6 +41,8 @@ class CuccoState extends State<Cucco> {
 
   // npcの人数
   int _endNpcId = 3;
+
+  CuccoState(this._endNpcId);
 
   @override
   Widget build(BuildContext context) {
@@ -420,6 +422,11 @@ class CuccoState extends State<Cucco> {
 }
 
 class Cucco extends StatefulWidget {
+
+  final int _endNpcId;
+
+  Cucco(this._endNpcId);
+
   @override
-  CuccoState createState() => new CuccoState();
+  CuccoState createState() => new CuccoState(_endNpcId);
 }
