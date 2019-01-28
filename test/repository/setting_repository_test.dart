@@ -1,14 +1,24 @@
 
 import 'package:flutter_app/repository/db_helper.dart';
 import 'package:flutter_app/repository/setting_repository.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
+import 'package:flutter_driver/flutter_driver.dart';
 
 void main() {
   SettingRepository _settingRepository;
+  FlutterDriver driver;
 
   setUp(() async {
+    driver = await FlutterDriver.connect(dartVmServiceUrl: 'https://dart-lang.github.io/observatory/');
     DBHelper.setIsTesting(true);
     _settingRepository = SettingRepository();
+  });
+
+  tearDownAll(() async {
+    if (driver != null) {
+      // Closes the connection
+      driver.close();
+    }
   });
 
   test('npcの人数を保存すると、リポジトリからそのデータを取り出せる', () async {
