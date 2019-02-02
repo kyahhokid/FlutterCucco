@@ -9,7 +9,9 @@ void main() {
   FlutterDriver driver;
 
   setUp(() async {
-    driver = await FlutterDriver.connect(dartVmServiceUrl: 'https://dart-lang.github.io/observatory/');
+    // flutter runをするとdartVmServiceUrlが表示される。
+    // ただ、これは毎回値が変わるので、固定値にする方法を調査する。
+    driver = await FlutterDriver.connect(dartVmServiceUrl: 'http://127.0.0.1:49963/');
     DBHelper.setIsTesting(true);
     _settingRepository = SettingRepository();
   });
