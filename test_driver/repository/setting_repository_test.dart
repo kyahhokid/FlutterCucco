@@ -4,6 +4,7 @@ import 'package:flutter_app/repository/setting_repository.dart';
 import 'package:test/test.dart';
 import 'package:flutter_driver/flutter_driver.dart';
 
+
 void main() {
   SettingRepository _settingRepository;
   FlutterDriver driver;
