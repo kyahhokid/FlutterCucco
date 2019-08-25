@@ -423,3 +423,8 @@ class Cucco extends StatefulWidget {
   @override
   CuccoState createState() => new CuccoState();
 }
+
+/// ゲーム画面のビューのインターフェイス
+class CuccoGameView {
+  setEndNpcId(int endNpcId){}
+}
