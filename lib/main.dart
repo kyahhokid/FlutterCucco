@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/app.dart';
 
-import 'package:flutter_app/model/cucco_game_master.dart';
+import 'package:flutter_app/presenter/cucco_game_master.dart';
+import 'package:flutter_app/setting.dart';
 
 void main() {
   SystemChrome.setPreferredOrientations([
@@ -24,6 +25,10 @@ class MainApp extends StatelessWidget {
             ),
             body: MainBody()
         ),
+        routes: <String, WidgetBuilder> {
+          '/setting': (BuildContext context) => new SettingPage(),
+        }
+
     );
   }
 }
@@ -56,6 +61,12 @@ class MainBodyState extends State<MainBody> {
         RaisedButton(
           child: Text("ゲームスタート"),
           onPressed: _transitionCucco,
+        ),
+        RaisedButton(
+          child: Text("設定"),
+          onPressed: () {
+            Navigator.pushNamed(context,'/setting');
+          },
         )
       ],
     );
