@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
+import 'package:flutter_app/presenter/cucco_game_master.dart';
+
+/// npcのビューのキー
+const Key CUCCO_GAME_NPC_VIEW_KEY = Key('cucco_game_npc_view');
+
+/// ゲーム画面
 class CuccoApp extends StatelessWidget {
-
-  final int _endNpcId;
-
-  CuccoApp(this._endNpcId);
+  Cucco cucco = Cucco();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Flutter Demo',
-        home: Cucco()
+        home: cucco
     );
   }
 }
 
-class CuccoState extends State<Cucco> {
+/// ゲーム画面のビュー
+class CuccoState extends State<Cucco> implements CuccoGameView {
   // アクティブ状態のボタンのレイアウトファイルの名前
   static const String VALID_BUTTON_FILE_NAME = 'res/images/button_default.png';
 
@@ -29,6 +33,9 @@ class CuccoState extends State<Cucco> {
 
   // 周りの余白
   static const double AROUND_MARGIN = 30.0;
+
+  // ゲームマスター
+  CuccoGameMaster _gameMaster;
 
   // 「交換する」ボタンのレイアウトファイルの名前
   String _changeButtonLayoutName = 'res/images/button_default.png';
@@ -52,6 +59,15 @@ class CuccoState extends State<Cucco> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    /// ゲームマスターの作成
+    _gameMaster = CuccoGameMasterMaker.make();
+    _gameMaster.setView(this);
+    /// ゲームマスターにゲームのセットアップを依頼する。
+    _gameMaster.GameSetUp();
+  }
 
   // 画面全体のレイアウト
   Widget _mainCuccoLayout() {
@@ -114,6 +130,7 @@ class CuccoState extends State<Cucco> {
     }
 
     return new Container(
+      key: CUCCO_GAME_NPC_VIEW_KEY,
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -417,9 +434,25 @@ class CuccoState extends State<Cucco> {
       ),
     );
   }
+
+  /// npcの人数をセットする。
+  @override
+  setEndNpcId(int endNpcId) {
+    setState(() {
+      this._endNpcId = endNpcId;
+    });
+  }
 }
 
+/// ゲーム画面のBodyのwidget
 class Cucco extends StatefulWidget {
+  CuccoState cuccoState = new CuccoState();
+
   @override
-  CuccoState createState() => new CuccoState();
+  CuccoState createState() => cuccoState;
+}
+
+/// ゲーム画面のビューのインターフェイス
+class CuccoGameView {
+  setEndNpcId(int endNpcId){}
 }
