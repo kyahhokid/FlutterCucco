@@ -1,11 +1,19 @@
+import 'package:flutter_app/model/card_pool.dart';
 import 'package:test/test.dart';
 void main() {
+  // カードプール
+  CardPool cardPool;
+
+  setUp(() {
+    cardPool = CardPool();
+  });
+
   test('カードプールを作成すると山札が40枚になっている',() {
-    
+    expect(cardPool.getDeckSize(), 40);
   });
 
   test('カードプールを作成すると捨て札が0枚になっている',() {
-
+    expect(cardPool.getDisCardSize(), isEmpty);
   });
 
   test('カードを引くとランダムでカードを取り出せる',() {
