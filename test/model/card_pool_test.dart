@@ -1,4 +1,4 @@
-import 'package:flutter_app/data/Card.dart';
+import 'package:flutter_app/data/card.dart';
 import 'package:flutter_app/model/card_pool.dart';
 import 'package:test/test.dart';
 

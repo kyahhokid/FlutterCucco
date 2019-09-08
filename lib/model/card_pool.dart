@@ -1,4 +1,4 @@
-import 'package:flutter_app/data/Card.dart';
+import 'package:flutter_app/data/card.dart';
 import 'dart:math' as math;
 
 /// カードプール
