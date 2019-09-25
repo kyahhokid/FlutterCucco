@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/model/player.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter_app/presenter/cucco_game_master.dart';
@@ -442,6 +443,9 @@ class CuccoState extends State<Cucco> implements CuccoGameView {
       this._endNpcId = endNpcId;
     });
   }
+
+  @override
+  setPlayerList(List<Player> playerList) {}
 }
 
 /// ゲーム画面のBodyのwidget
@@ -455,4 +459,6 @@ class Cucco extends StatefulWidget {
 /// ゲーム画面のビューのインターフェイス
 class CuccoGameView {
   setEndNpcId(int endNpcId){}
+
+  setPlayerList(List<Player> playerList) {}
 }

@@ -1,4 +1,5 @@
 import 'package:flutter_app/app.dart';
+import 'package:flutter_app/model/player.dart';
 import 'package:flutter_app/presenter/cucco_game_master.dart';
 import 'package:flutter_app/repository/setting_repository.dart';
 import 'package:mockito/mockito.dart';
@@ -28,6 +29,15 @@ void main() {
     await _gameMaster.GameSetUp();
 
     verify(_mockView.setEndNpcId(5));
+  });
+
+  test('セットアップを要求されると、キャラクターをランダムに決定してビューに表示させる', () async {
+    when(_mockRepository.getEndNpcId()).thenAnswer((_) => Future.value(5));
+
+    await _gameMaster.GameSetUp();
+
+    List<Player> playerList = verify(_mockView.setPlayerList(captureAny)).captured.single;
+    expect(playerList.length, 6);
   });
 }
 
